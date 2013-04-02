@@ -9,10 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/gruntjs/grunt-init-node-sample.git"
-  },
-  "bugs": {
-    "url": "https://github.com/gruntjs/grunt-init-node-sample/issues"
+    "url": "git://github.com/smaaath/gruntplugin.git"
   },
   "licenses": [
     {
@@ -37,6 +34,6 @@
     "grunt": "~0.4.1"
   },
   "keywords": [
-    "gruntplugin"
+    "gruntplugintest"
   ]
 }
