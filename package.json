@@ -1,5 +1,5 @@
 {
-  "name": "test",
+  "name": "grunt-tasks",
   "description": "Contains needed tasks for nodeJS",
   "version": "0.1.0",
   "homepage": "https://github.com/gruntjs/grunt-init-node-sample",
