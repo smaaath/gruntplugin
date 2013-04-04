@@ -7,10 +7,10 @@ module.exports = function(grunt) {
     var UNIT = 'test';
 
     function sourcesDirectory() {
-        return grunt.config.get('smTests').sourcesDirectory;
+        return grunt.config.get('moduleTests').sourcesDirectory;
     }
     function testsDirectory() {
-        return grunt.config.get('smTests').testsDirectory;
+        return grunt.config.get('moduleTests').testsDirectory;
     }
 
     function initDatabase(done) {

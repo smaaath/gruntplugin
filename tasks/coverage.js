@@ -103,8 +103,8 @@ module.exports = function(grunt) {
         grunt.config.get("mochaTest")["all"] = [config.testDirs.output + "**/*Test.js"];
 
         // tell Mocha to run tests and application from new directories
-        grunt.config.get("smTests").sourcesDirectory = config.sourceDirs.output;
-        grunt.config.get("smTests").testsDirectory = config.testDirs.output;
+        grunt.config.get("moduleTests").sourcesDirectory = config.sourceDirs.output;
+        grunt.config.get("moduleTests").testsDirectory = config.testDirs.output;
 
         var done = grunt.task.current.async();
         // TODO errror handling
