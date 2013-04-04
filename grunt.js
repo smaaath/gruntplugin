@@ -1,45 +1,6 @@
 module.exports = function (grunt) {
     // Project configuration.
-    grunt.initConfig({
-        pkg: '<json:package.json>',
-        test: {
-            files: ['test/**/*Test.js']
-        },
-        lint: {
-            files: ['grunt.js', 'src/**/*.js', 'test/**/*.js']
-        },
-        watch: {
-            files: ['<config:lint.files>', 'src/**/*', 'test/**/*'],
-            tasks: 'unit'
-        },
-        jshint: {
-            options: {
-                curly: true,
-                eqeqeq: true,
-                immed: true,
-                latedef: true,
-                newcap: true,
-                noarg: true,
-                sub: true,
-                undef: true,
-                boss: true,
-                eqnull: true,
-                node: true
-            },
-            globals: {
-                exports: true
-            }
-        },
-        moduleTests: {
-            sourcesDirectory: 'src/',
-            testsDirectory: 'test/'
-        }
-    });
 
-    grunt.config.set("moduleTests", {
-        sourcesDirectory: "src/",
-        testsDirectory: "test/"
-    });
 
 
     //grunt.loadTasks('node_modules/grunt-tasks/tasks');
