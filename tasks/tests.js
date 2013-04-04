@@ -74,9 +74,10 @@ module.exports = function(grunt) {
     }
 
     grunt.config.set('mochaTest', {
-        functional: ['test/*/functional/**/*Test.js'],
-        unit: [ 'test/*/unit/**/*Test.js', 'test/utils/**/*Test.js' ],
-        all : [ 'test/*/functional/**/*Test.js', 'test/*/unit/**/*Test.js', 'test/utils/**/*Test.js']
+        functional: ['test/functional/**/*Functional.js'],
+        unit: grunt.config.get('moduleTests').unit;
+        all : [ 'test/*/functional/**/*Test.js', 'test/*/unit/**/*Test.js']
+
     });
 
     grunt.config.set('mochaTestConfig', {
