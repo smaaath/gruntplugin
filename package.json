@@ -31,7 +31,7 @@
     "grunt": "~0.3.17"
   },
   "peerDependencies": {
-    "grunt": "~0.3.17",
+    "grunt": "~0.3.17"
   },
   "keywords": [
     "gruntplugintest"
