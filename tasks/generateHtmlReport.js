@@ -5,7 +5,7 @@ var xslt = require("node_xslt");
 var fs = require("fs");
 
 module.exports = function(grunt) {
-    var outputPath = "./doc/";
+    var outputPath = "../../../doc/";
     var privatePath = outputPath + "private/testReport/";
 
     grunt.registerTask("xunitUnitTests", "Generates XML unit test report", function() {
