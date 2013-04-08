@@ -138,128 +138,129 @@ module.exports = function(grunt) {
         grunt.log.writeln('Mocha task: ' + mochaTask.join(' '));
         grunt.task.run(mochaTask);
     });
-};
-function prepareEnvironementForDG1() {
-    grunt.config.set('mochaTestConfig', {
-        unit: {
-            options: {
-                reporter: 'spec',
-                prepareEnvironmentFor: function (file) {
-                    prepareEnvironment(UNIT);
+    function prepareEnvironementForDG1() {
+        grunt.config.set('mochaTestConfig', {
+            unit: {
+                options: {
+                    reporter: 'spec',
+                    prepareEnvironmentFor: function (file) {
+                        prepareEnvironment(UNIT);
+                    }
                 }
-            }
-        },
-        functional: {
-            options: {
-                reporter: 'spec',
-                timeout: 5000,
-                prepareEnvironmentFor: function (file) {
-                    prepareEnvironment(IN_MEMORY);
-                },
-                onFirstBeforeTest: function (file, done) {
-                    initFunctional(done);
-                },
-                onLastBeforeTest: function (file, done) {
-                    done();
-                },
-                onAfterTest: function (file, done) {
-                    stopFunctional(done);
-                }
-            }
-        },
-        all: {
-            options: {
-                reporter: 'spec',
-                timeout: 5000,
-                prepareEnvironmentFor: function (file) {
-                    prepareEnvironmentFor(file);
-                },
-                onFirstBeforeTest: function (file, done) {
-                    prepareEnvironmentFor(file);
-                    if (isFunctionalTestIn(file)) {
+            },
+            functional: {
+                options: {
+                    reporter: 'spec',
+                    timeout: 5000,
+                    prepareEnvironmentFor: function (file) {
+                        prepareEnvironment(IN_MEMORY);
+                    },
+                    onFirstBeforeTest: function (file, done) {
                         initFunctional(done);
-                    } else {
+                    },
+                    onLastBeforeTest: function (file, done) {
                         done();
-                    }
-                },
-                onLastBeforeTest: function (file, done) {
-                    done();
-
-                },
-                onAfterTest: function (file, done) {
-                    if (isFunctionalTestIn(file)) {
+                    },
+                    onAfterTest: function (file, done) {
                         stopFunctional(done);
-                    } else {
+                    }
+                }
+            },
+            all: {
+                options: {
+                    reporter: 'spec',
+                    timeout: 5000,
+                    prepareEnvironmentFor: function (file) {
+                        prepareEnvironmentFor(file);
+                    },
+                    onFirstBeforeTest: function (file, done) {
+                        prepareEnvironmentFor(file);
+                        if (isFunctionalTestIn(file)) {
+                            initFunctional(done);
+                        } else {
+                            done();
+                        }
+                    },
+                    onLastBeforeTest: function (file, done) {
                         done();
+
+                    },
+                    onAfterTest: function (file, done) {
+                        if (isFunctionalTestIn(file)) {
+                            stopFunctional(done);
+                        } else {
+                            done();
+                        }
                     }
                 }
             }
-        }
-    });
-}
+        });
+    }
 
 
-/**
- * This enable configuration for test for UI modules like
- */
-function prepareEnvironnmentForDG2() {
-    grunt.config.set('mochaTestConfig', {
-        unit: {
-            options: {
-                reporter: 'spec',
-                prepareEnvironmentFor: function (file) {
-                    prepareEnvironment(UNIT);
+    /**
+     * This enable configuration for test for UI modules like
+     */
+    function prepareEnvironnmentForDG2() {
+        grunt.config.set('mochaTestConfig', {
+            unit: {
+                options: {
+                    reporter: 'spec',
+                    prepareEnvironmentFor: function (file) {
+                        prepareEnvironment(UNIT);
+                    }
                 }
-            }
-        },
-        functional: {
-            options: {
-                reporter: 'spec',
-                timeout: 5000,
-                prepareEnvironmentFor: function (file) {
-                    prepareEnvironment(IN_MEMORY);
-                },
-                onFirstBeforeTest: function (file, done) {
-                    initDatabase(done);
-                },
-                onLastBeforeTest: function (file, done) {
-                    startApplication(done);
-                },
-                onAfterTest: function (file, done) {
-                    closeApplicationAndResetCache(done);
-                }
-            }
-        },
-        all: {
-            options: {
-                reporter: 'spec',
-                timeout: 5000,
-                prepareEnvironmentFor: function (file) {
-                    prepareEnvironmentFor(file);
-                },
-                onFirstBeforeTest: function (file, done) {
-                    prepareEnvironmentFor(file);
-                    if (isFunctionalTestIn(file)) {
+            },
+            functional: {
+                options: {
+                    reporter: 'spec',
+                    timeout: 5000,
+                    prepareEnvironmentFor: function (file) {
+                        prepareEnvironment(IN_MEMORY);
+                    },
+                    onFirstBeforeTest: function (file, done) {
                         initDatabase(done);
-                    } else {
-                        done();
-                    }
-                },
-                onLastBeforeTest: function (file, done) {
-                    if (isFunctionalTestIn(file)) {
+                    },
+                    onLastBeforeTest: function (file, done) {
                         startApplication(done);
-                    } else {
-                        done();
-                    }
-                },
-                onAfterTest: function (file, done) {
-                    if (isFunctionalTestIn(file)) {
+                    },
+                    onAfterTest: function (file, done) {
                         closeApplicationAndResetCache(done);
-                    } else {
-                        done();
+                    }
+                }
+            },
+            all: {
+                options: {
+                    reporter: 'spec',
+                    timeout: 5000,
+                    prepareEnvironmentFor: function (file) {
+                        prepareEnvironmentFor(file);
+                    },
+                    onFirstBeforeTest: function (file, done) {
+                        prepareEnvironmentFor(file);
+                        if (isFunctionalTestIn(file)) {
+                            initDatabase(done);
+                        } else {
+                            done();
+                        }
+                    },
+                    onLastBeforeTest: function (file, done) {
+                        if (isFunctionalTestIn(file)) {
+                            startApplication(done);
+                        } else {
+                            done();
+                        }
+                    },
+                    onAfterTest: function (file, done) {
+                        if (isFunctionalTestIn(file)) {
+                            closeApplicationAndResetCache(done);
+                        } else {
+                            done();
+                        }
                     }
                 }
             }
-        }
-    });
-}
+        });
+    }
+};
+
