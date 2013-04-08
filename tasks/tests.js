@@ -35,9 +35,9 @@ module.exports = function(grunt) {
     }
 
     function resetCache() {
-        removeModule(require.cache, require.resolve('../../..' + testsDirectory() + 'initApplication'));
-        removeModule(require.cache, require.resolve('../../..' + sourcesDirectory() + 'data_access/utils/db/dbSqlite'));
-        removeModule(require.cache, require.resolve('../../..' + sourcesDirectory() + 'data_access/utils/db/sqliImpl'));
+        removeModule(require.cache, require.resolve('../../../' + testsDirectory() + 'initApplication'));
+        removeModule(require.cache, require.resolve('../../../' + sourcesDirectory() + 'data_access/utils/db/dbSqlite'));
+        removeModule(require.cache, require.resolve('../../../' + sourcesDirectory() + 'data_access/utils/db/sqliImpl'));
 
         clearCache(require.cache);
     }
