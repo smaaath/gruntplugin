@@ -56,7 +56,7 @@ module.exports = function(grunt) {
     function clearCache(cache) {
         for (var entry in cache) {
             if (cache.hasOwnProperty(entry)) {
-                var id = cache[entry].id;z
+                var id = cache[entry].id;
                 // don't remove node modules from cache
                 if ((id.indexOf('node_modules') === -1)) {
                     delete cache[entry];
