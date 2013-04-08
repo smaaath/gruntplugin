@@ -201,6 +201,7 @@ module.exports = function(grunt) {
                         prepareEnvironmentFor(file);
                     },
                     onFirstBeforeTest: function (file, done) {
+                        prepareEnvironmentFor(file);
                         if (isFunctionalTestIn(file)) {
                             initDatabase(done);
                         } else {
