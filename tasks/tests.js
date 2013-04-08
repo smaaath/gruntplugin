@@ -13,21 +13,33 @@ module.exports = function(grunt) {
         return grunt.config.get('moduleTests').testsDirectory;
     }
 
-    function initDatabase(done) {
+    function initFunctional(done) {
         require('../../../' + testsDirectory() + 'initApplication').startFunctional(done);
+    }
+    function stopFunctional(done) {
+        require('../../../' + testsDirectory() + 'initApplication').stopFunctional(done);
+    }
+    function initDatabase(done) {
+        require('../../../' + testsDirectory() + 'initApplication').initDatabase(done);
     }
     function startApplication(done) {
         require('../../../' + testsDirectory() + 'initApplication').startApplication(done);
     }
     function closeApplicationAndResetCache(done) {
-        process.emit('close application');
-        require('../../../' + testsDirectory() + 'initApplication').stopFunctional(done);
-        /*removeModule(require.cache, require.resolve('../' + testsDirectory() + 'initApplication'));
-         removeModule(require.cache, require.resolve('../' + sourcesDirectory() + 'data_access/utils/db/dbSqlite'));
-         removeModule(require.cache, require.resolve('../' + sourcesDirectory() + 'data_access/utils/db/sqliImpl'));*/
 
-        //clearCache(require.cache);
+
+        process.emit('close SM application');
+        resetCache();
         done();
+        done();
+    }
+
+    function resetCache() {
+        removeModule(require.cache, require.resolve('../' + testsDirectory() + 'initApplication'));
+        removeModule(require.cache, require.resolve('../' + sourcesDirectory() + 'data_access/utils/db/dbSqlite'));
+        removeModule(require.cache, require.resolve('../' + sourcesDirectory() + 'data_access/utils/db/sqliImpl'));
+
+        clearCache(require.cache);
     }
 
     function removeModule(cache, moduleName) {
@@ -84,69 +96,136 @@ module.exports = function(grunt) {
 
     console.log('SAMPLE', grunt.config.get('moduleTests').unit);
 
-    grunt.config.set('mochaTestConfig', {
-        unit: {
-            options: {
-                reporter: 'spec',
-                prepareEnvironmentFor : function(file) {
-                    prepareEnvironment(UNIT);
+    /**
+     * Check if which config should be used
+     * @returns {*}
+     */
+    function checkConfig() {
+        return grunt.config.get('moduleTests').DG1==='true';
+    }
+
+    if(checkConfig()){
+        grunt.config.set('mochaTestConfig', {
+            unit: {
+                options: {
+                    reporter: 'spec',
+                    prepareEnvironmentFor : function(file) {
+                        prepareEnvironment(UNIT);
+                    }
+                }
+            },
+            functional: {
+                options: {
+                    reporter: 'spec',
+                    timeout: 5000,
+                    prepareEnvironmentFor: function(file) {
+                        prepareEnvironment(IN_MEMORY);
+                    },
+                    onFirstBeforeTest: function (file, done) {
+                        initFunctional(done);
+                    },
+                    onLastBeforeTest: function (file, done) {
+                        done();
+                    },
+                    onAfterTest: function (file, done) {
+                        stopFunctional(done);
+                    }
+                }
+            },
+            all: {
+                options: {
+                    reporter: 'spec',
+                    timeout: 5000,
+                    prepareEnvironmentFor: function (file) {
+                        prepareEnvironmentFor(file);
+                    },
+                    onFirstBeforeTest: function (file, done) {
+                        prepareEnvironmentFor(file);
+                        if (isFunctionalTestIn(file)) {
+                            initFunctional(done);
+                        } else {
+                            done();
+                        }
+                    },
+                    onLastBeforeTest: function (file, done) {
+                        done();
+
+                    },
+                    onAfterTest: function (file, done) {
+                        if (isFunctionalTestIn(file)) {
+                            stopFunctional(done);
+                        } else {
+                            done();
+                        }
+                    }
                 }
             }
-        },
-        functional: {
-            options: {
-                reporter: 'spec',
-                timeout: 5000,
-                prepareEnvironmentFor: function(file) {
-
-
-                    prepareEnvironment(IN_MEMORY);
-                },
-                onFirstBeforeTest: function (file, done) {
-
-                    initDatabase(done);
-                },
-                onLastBeforeTest: function (file, done) {
-                    //    startApplication(done);
-                    done();
-                },
-                onAfterTest: function (file, done) {
-                    closeApplicationAndResetCache(done);
+        });
+    }else{
+        grunt.config.set('mochaTestConfig', {
+            unit: {
+                options: {
+                    reporter: 'spec',
+                    prepareEnvironmentFor : function(file) {
+                        prepareEnvironment(UNIT);
+                    }
                 }
-            }
-        },
-        all: {
-            options: {
-                reporter: 'spec',
-                timeout: 5000,
-                prepareEnvironmentFor: function (file) {
-                    prepareEnvironmentFor(file);
-                },
-                onFirstBeforeTest: function (file, done) {
-                    prepareEnvironmentFor(file);
-                    if (isFunctionalTestIn(file)) {
+            },
+            functional: {
+                options: {
+                    reporter: 'spec',
+                    timeout: 5000,
+                    prepareEnvironmentFor: function(file) {
+
+
+                        prepareEnvironment(IN_MEMORY);
+                    },
+                    onFirstBeforeTest: function (file, done) {
+
                         initDatabase(done);
-                    } else {
+                    },
+                    onLastBeforeTest: function (file, done) {
+                        //    startApplication(done);
                         done();
-                    }
-                },
-                onLastBeforeTest: function (file, done) {
-                    if (isFunctionalTestIn(file)) {
-                        startApplication(done);
-                    } else {
-                        done();
-                    }
-                },
-                onAfterTest: function (file, done) {
-                    if (isFunctionalTestIn(file)) {
+                    },
+                    onAfterTest: function (file, done) {
                         closeApplicationAndResetCache(done);
-                    } else {
-                        done();
+                    }
+                }
+            },
+            all: {
+                options: {
+                    reporter: 'spec',
+                    timeout: 5000,
+                    prepareEnvironmentFor: function (file) {
+                        prepareEnvironmentFor(file);
+                    },
+                    onFirstBeforeTest: function (file, done) {
+                        prepareEnvironmentFor(file);
+                        if (isFunctionalTestIn(file)) {
+                            initDatabase(done);
+                        } else {
+                            done();
+                        }
+                    },
+                    onLastBeforeTest: function (file, done) {
+                        if (isFunctionalTestIn(file)) {
+                            startApplication(done);
+                        } else {
+                            done();
+                        }
+                    },
+                    onAfterTest: function (file, done) {
+                        if (isFunctionalTestIn(file)) {
+                            closeApplicationAndResetCache(done);
+                        } else {
+                            done();
+                        }
                     }
                 }
             }
-        }
-    });
+        });
+    }
 
     grunt.registerTask('functional', 'mochaTest:functional');
     grunt.registerTask('unit', 'mochaTest:unit');
