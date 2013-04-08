@@ -185,7 +185,7 @@ module.exports = function(grunt) {
                         initDatabase(done);
                     },
                     onLastBeforeTest: function (file, done) {
-                        //    startApplication(done);
+                        startApplication(done);
                         done();
                     },
                     onAfterTest: function (file, done) {
@@ -201,7 +201,6 @@ module.exports = function(grunt) {
                         prepareEnvironmentFor(file);
                     },
                     onFirstBeforeTest: function (file, done) {
-                        prepareEnvironmentFor(file);
                         if (isFunctionalTestIn(file)) {
                             initDatabase(done);
                         } else {
