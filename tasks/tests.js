@@ -176,17 +176,13 @@ module.exports = function(grunt) {
                     reporter: 'spec',
                     timeout: 5000,
                     prepareEnvironmentFor: function(file) {
-
-
                         prepareEnvironment(IN_MEMORY);
                     },
                     onFirstBeforeTest: function (file, done) {
-
                         initDatabase(done);
                     },
                     onLastBeforeTest: function (file, done) {
                         startApplication(done);
-                        done();
                     },
                     onAfterTest: function (file, done) {
                         closeApplicationAndResetCache(done);
