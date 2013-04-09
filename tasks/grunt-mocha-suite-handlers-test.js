@@ -77,7 +77,9 @@ module.exports = function(grunt) {
             var mocha = new Mocha(options);
 
             // add files to mocha
+            var path = require("path");
             grunt.file.expandFiles(this.file.src).forEach(function(file) {
+                process.stderr.write("Loading file: " + path.resolve(file) + "\n");
                 mocha.addFile(file);
             });
 
@@ -97,7 +99,11 @@ module.exports = function(grunt) {
                 done(false);
             }
         });
+    // add files to mocha
+
+
 };
+
 
 function newRun(options, mocha) {
     var index = 0;
