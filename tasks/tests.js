@@ -94,7 +94,7 @@ module.exports = function(grunt) {
 
     });
 
-
+    console.log('SAMPLE', grunt.config.get('moduleTests').unit);
 
     /**
      * Check if which config should be used
@@ -225,7 +225,12 @@ module.exports = function(grunt) {
                         startApplication(done);
                     },
                     onAfterTest: function (file, done) {
-                        closeApplicationAndResetCache(done);
+                        if (isFunctionalTestIn(file)) {
+                            closeApplicationAndResetCache(done);
+                        } else {
+                            resetCache();
+                            done();
+                        }
                     }
                 }
             },
@@ -252,11 +257,14 @@ module.exports = function(grunt) {
                         }
                     },
                     onAfterTest: function (file, done) {
+
                         if (isFunctionalTestIn(file)) {
                             closeApplicationAndResetCache(done);
                         } else {
+                            resetCache();
                             done();
                         }
+
                     }
                 }
             }
