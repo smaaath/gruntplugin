@@ -94,7 +94,7 @@ module.exports = function(grunt) {
 
     });
 
-    console.log('SAMPLE', grunt.config.get('moduleTests').unit);
+
 
     /**
      * Check if which config should be used
