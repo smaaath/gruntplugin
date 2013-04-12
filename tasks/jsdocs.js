@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     grunt.config.set("yuidoc",
         {
             compile: {
-                name: "Stock Manager",
+                name: "Manager",
                 options: {
                     outdir: "./doc/yuidoc",
                     paths: "./src",
